@@ -1,5 +1,7 @@
 data
 notebooks/text_data.ipynb
+vectorizer_data/*
+!vectorizer_data/.gitkeep
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
