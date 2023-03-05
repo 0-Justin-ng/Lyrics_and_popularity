@@ -3,7 +3,9 @@ import pandas as pd
 import json
 import os
 from pathlib import Path
+import joblib
 
+VECTORIZER_PATH = 'vectorizer_data'
 def get_datapath(source_path):
     cwd = os.getcwd()
     parent_path = Path(cwd).parent
@@ -25,6 +27,18 @@ def json_loader(file_path):
 
     return pd.json_normalize(df_inter['json_element'].apply(json.loads))
 
+def load_transformed_data(vectorizer_name):
+    with open(
+        get_datapath(VECTORIZER_PATH) / vectorizer_name / 'data.pkl', 'rb'
+        ) as f:
+        data = joblib.load(f)
+
+        X_train = data['X_train']
+        X_test = data['X_test']
+        y_train = data['y_train']
+        y_test = data['y_test']
+
+    return X_train, X_test, y_train, y_test
 
 def clean_lyrics(lyric):
     '''
