@@ -1,5 +1,6 @@
 from scripts import utils
 from sklearn.model_selection import train_test_split
+import os
 import joblib
 
 VECTORIZER_FOLDER = 'vectorizer_data'
@@ -20,6 +21,10 @@ class VectorizerPipeline:
         self.split_data = self._splitter(X, y)
         self.vectorizer_path = utils.get_datapath(VECTORIZER_FOLDER) / vectorizer_name
         self.transformed_data = {}
+
+        if not os.path.exists(self.vectorizer_path):
+            os.makedirs(self.vectorizer_path)
+
 
     def _dump_vectorizers(self):
         with open(

@@ -4,11 +4,11 @@ import json
 import os
 from pathlib import Path
 
-def get_datapath():
+def get_datapath(source_path):
     cwd = os.getcwd()
     parent_path = Path(cwd).parent
     # Set path for the raw data
-    return parent_path / 'data'
+    return parent_path / source_path
 
 
 def json_loader(file_path):
