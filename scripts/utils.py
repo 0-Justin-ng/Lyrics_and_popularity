@@ -40,6 +40,14 @@ def load_transformed_data(vectorizer_name):
 
     return X_train, X_test, y_train, y_test
 
+def load_vectorizer(vectorizer_name):
+    with open(
+        get_datapath(VECTORIZER_PATH) / vectorizer_name / f'{vectorizer_name}.pkl', 'rb'
+        ) as f:
+        vectorizer = joblib.load(f)
+
+    return vectorizer
+
 def clean_lyrics(lyric):
     '''
         This function takes a str that represents each lyric
