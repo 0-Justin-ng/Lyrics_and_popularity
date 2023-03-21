@@ -14,3 +14,10 @@ The dataset can be found [here](https://www.cs.cornell.edu/~arb/data/genius-expe
 - [ ] Look into parquet.
     - Saves your data.
     - Save output of count vectorizer.  
+- [ ] Look into grid search
+- [ ] Look into pipeline
+- [ ] Look into a binary cutoff. 
+- [ ] Look into n-Grams for lyrics transformations.
+- [ ] Non-linear classifiers
+    - [ ] Random Forest: max depth = 4 
+- [ ] Obsidian - for notes. 
