@@ -1,4 +1,4 @@
-from scripts import utils
+from utilities import utils
 from sklearn.model_selection import train_test_split
 import os
 import joblib
@@ -47,13 +47,16 @@ class VectorizerPipeline:
 
 
     def _splitter(self, X, y):
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+        X_remainder, X_test, y_remainder, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+
+        X_train, X_val, y_train, y_val = train_test_split(X_remainder, y_remainder, test_size=0.25, stratify=y_remainder)
         
+        # End up with an 80/20/20 train/validation/test split. 
         return { 
             entry[0] : entry[1] 
             for entry in zip(
-                ['X_train', 'X_test', 'y_train', 'y_test'],
-                [X_train, X_test, y_train, y_test]
+                ['X_train', 'X_val', 'X_test', 'y_train', 'y_val', 'y_test'],
+                [X_train, X_val, X_test, y_train, y_val, y_test]
             )
         }
             
@@ -61,17 +64,22 @@ class VectorizerPipeline:
     def run_vectorizer_pipeline(self):
         self.vectorizer.fit(self.split_data['X_train'])
         X_train_transformed = self.vectorizer.transform(self.split_data['X_train'])
+        X_val_transformed = self.vectorizer.transform(self.split_data['X_val'])
         X_test_transformed = self.vectorizer.transform(self.split_data['X_test'])
 
         print(
             f'Train shape: {X_train_transformed.shape} \
+            \nValidation shape: {X_val_transformed.shape} \
             \nTest shape: {X_test_transformed.shape}'
         )
 
         self.transformed_data['X_train'] = X_train_transformed
+        self.transformed_data['X_val'] = X_val_transformed
         self.transformed_data['X_test'] = X_test_transformed
         self.transformed_data['y_train'] = self.split_data['y_train']
+        self.transformed_data['y_val'] = self.split_data['y_val']
         self.transformed_data['y_test'] = self.split_data['y_test']
 
-        self._dump_vectorizers()
         self._dump_test_train_split()
+        #self._dump_vectorizers()
+        
