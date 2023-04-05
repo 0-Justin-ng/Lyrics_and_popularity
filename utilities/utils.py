@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+import numpy as np
 import json
 import os
 from pathlib import Path
@@ -96,3 +97,22 @@ def clean_lyrics(lyric):
     )
     return cleaned_lyric
 
+def _convert_ada_embeddings(embedding):
+    '''
+    This function converts the ada embeddings in the dataset from a string
+    to a numpy array.
+    '''
+    ada_embedding = embedding.replace('[', '').replace(']', '').replace(',', '')
+    converted_ada_embedding = ada_embedding.split(' ')
+    converted_ada_embedding = [
+        float(weight)
+        for weight in converted_ada_embedding 
+    ]
+    
+    return np.array(converted_ada_embedding)
+
+def get_ada_embeddings(df, embedding_col_name):
+    # Convert the embeddings from strings into an array. 
+    ada_embeddings = df[embedding_col_name].apply(_convert_ada_embeddings)
+    # Stack the series and return the stacked array for modeling. 
+    return np.stack(ada_embeddings, axis=0)
