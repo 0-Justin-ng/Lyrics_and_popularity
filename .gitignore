@@ -1,4 +1,6 @@
-data
+data/*
+!data/language_detect/.gitkeep
+
 notebooks/text_data.ipynb
 vectorizer_data/*
 !vectorizer_data/.gitkeep
@@ -6,6 +8,9 @@ lexVec_data/*
 !lexVec_data/.gitkeep
 model/*
 !model/.gitkeep
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
