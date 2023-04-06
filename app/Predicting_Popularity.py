@@ -22,7 +22,7 @@ MODEL_PATH = utils.get_datapath('model') / 'log_reg_spotify_popularity_pipeline.
 with open(MODEL_PATH, 'rb') as file:
     pipeline = joblib.load(file)
 
-lyric = st.text_input(label='Placeholder',label_visibility='hidden')
+lyric = st.text_input(label='Placeholder', label_visibility='hidden')
 
 
 if lyric:
@@ -35,8 +35,14 @@ if lyric:
     
     print(result)
     if result == 2:
-        st.write('### This song could be a hit.')
+        st.write('### 😁 This song could be a hit.')
     elif result == 1:
-        st.write('### This song has a medium chance of success.')
+        st.write('### 😐 This song has a medium chance of success.')
     else:
-        st.write("### This song doesn't stand a chance of succeeding.")
+        st.write("### 😞 This song doesn't stand a chance of succeeding.")
+        st.write('Try using these words:')
+        st.write('- Away')
+        st.write('- Remember')
+        st.write('- Feel')    
+        st.write('- Wish')
+        st.write('- Water')
