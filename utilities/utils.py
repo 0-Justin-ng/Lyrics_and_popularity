@@ -1,11 +1,16 @@
 import re
-import pandas as pd
-import numpy as np
 import json
 import os
 from pathlib import Path
 import joblib
 
+import numpy as np
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+
+# Set the english stop words.
+ENGLISH_STOP_WORDS = set(stopwords.words('english'))
 
 VECTORIZER_PATH = 'vectorizer_data'
 def get_datapath(source_path):
@@ -97,6 +102,24 @@ def clean_lyrics(lyric):
     )
     return cleaned_lyric
 
+def stop_word_removal_and_stem(lyrics):
+    # Split the lyrics into a list where each index holds a word.
+    tokenized_lyrics = lyrics.split(' ')
+
+    # Try a SnowballStemmer that is less aggressive than the Porter stemmer. 
+    stemmer = SnowballStemmer('english')
+
+    # Stem the words if they are not a part of the ENGLISH_STOP_WORDS.
+    lyrics_modified = [
+        stemmer.stem(word) 
+        for word in tokenized_lyrics
+        if word not in ENGLISH_STOP_WORDS
+    ]
+
+    # Return a string with the modfied lyrics.
+    return ' '.join(lyrics_modified)
+
+
 def _convert_ada_embeddings(embedding):
     '''
     This function converts the ada embeddings in the dataset from a string
@@ -111,8 +134,12 @@ def _convert_ada_embeddings(embedding):
     
     return np.array(converted_ada_embedding)
 
-def get_ada_embeddings(df, embedding_col_name):
+def get_ada_embeddings(embeddings):
     # Convert the embeddings from strings into an array. 
-    ada_embeddings = df[embedding_col_name].apply(_convert_ada_embeddings)
+   
+    ada_embeddings = [
+        _convert_ada_embeddings(embedding)
+        for embedding in embeddings
+    ]
     # Stack the series and return the stacked array for modeling. 
     return np.stack(ada_embeddings, axis=0)
