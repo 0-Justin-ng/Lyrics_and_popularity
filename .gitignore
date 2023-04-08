@@ -6,8 +6,7 @@ vectorizer_data/*
 !vectorizer_data/.gitkeep
 lexVec_data/*
 !lexVec_data/.gitkeep
-model/*
-!model/.gitkeep
+
 
 
 
