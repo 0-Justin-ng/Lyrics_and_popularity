@@ -6,6 +6,10 @@ import joblib
 
 import numpy as np
 import pandas as pd
+
+from sklearn.metrics import roc_curve, roc_auc_score, auc
+import matplotlib.pyplot as plt
+
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
@@ -34,6 +38,7 @@ def json_loader(file_path):
 
     return pd.json_normalize(df_inter['json_element'].apply(json.loads))
 
+
 def load_transformed_data(vectorizer_name):
     with open(
         get_datapath(VECTORIZER_PATH) / vectorizer_name / 'data.pkl', 'rb'
@@ -49,6 +54,7 @@ def load_transformed_data(vectorizer_name):
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
+
 def load_vectorizer(vectorizer_name):
     with open(
         get_datapath(VECTORIZER_PATH) / vectorizer_name / f'{vectorizer_name}.pkl', 'rb'
@@ -56,6 +62,7 @@ def load_vectorizer(vectorizer_name):
         vectorizer = joblib.load(f)
 
     return vectorizer
+
 
 def clean_lyrics(lyric):
     '''
@@ -102,6 +109,7 @@ def clean_lyrics(lyric):
     )
     return cleaned_lyric
 
+
 def stop_word_removal_and_stem(lyrics):
     # Split the lyrics into a list where each index holds a word.
     tokenized_lyrics = lyrics.split(' ')
@@ -134,6 +142,7 @@ def _convert_ada_embeddings(embedding):
     
     return np.array(converted_ada_embedding)
 
+
 def get_ada_embeddings(embeddings):
     # Convert the embeddings from strings into an array. 
    
@@ -143,3 +152,44 @@ def get_ada_embeddings(embeddings):
     ]
     # Stack the series and return the stacked array for modeling. 
     return np.stack(ada_embeddings, axis=0)
+
+
+def load_model(model_path):
+    with open(model_path, 'rb') as file:
+        model = joblib.load(file)
+    
+    return model
+
+
+def generate_multi_class_roc(y_score, y_onehot_test, n_classes, model_name):
+    # This code was adapted from https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_onehot_test[:,i], y_score[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+
+    # Compute micro-average ROC curve and ROC area
+    fpr["micro"], tpr["micro"], _ = roc_curve(y_onehot_test.ravel(), y_score.ravel())
+    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+
+
+    # Plot ROC curve
+    plt.figure(figsize=(8,8))
+    plt.plot(fpr["micro"], tpr["micro"],
+            label='micro-average ROC curve (area = {0:0.2f})'
+                ''.format(roc_auc["micro"]))
+    for i in range(n_classes):
+        plt.plot(fpr[i], tpr[i], label='ROC curve of class {0} (area = {1:0.2f})'
+                                    ''.format(i, roc_auc[i]))
+
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title(f'Reciever Operating Characteristc Curve for \n{model_name}')
+    plt.legend(loc="lower right")
+    plt.show()
