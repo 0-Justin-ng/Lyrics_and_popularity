@@ -13,6 +13,7 @@ import joblib
 
 # Setup the model-------------------------------------------------------------------------
 MODEL_PATH = utils.get_datapath('model') / 'log_reg_tfidf.pkl'
+print(MODEL_PATH)
 
 with open(MODEL_PATH, 'rb') as file:
     model = joblib.load(file)
