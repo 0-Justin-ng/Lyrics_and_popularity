@@ -13,7 +13,8 @@ import joblib
 
 # Setup the model-------------------------------------------------------------------------
 # This is the specific path for the streamlit app.
-MODEL_PATH = Path(os.getcwd() / 'model' / 'log_reg_tfidf.pkl')
+CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
+MODEL_PATH =  CURRENT_WORKING_DIRECTORY / 'model' / 'log_reg_tfidf.pkl'
 
 
 with open(MODEL_PATH, 'rb') as file:
