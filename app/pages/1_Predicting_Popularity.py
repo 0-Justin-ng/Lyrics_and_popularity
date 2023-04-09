@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import os
 
-sys.path.append(Path('app' / 'lyrics_and_popularity'))
+sys.path.append(Path('app/lyrics_and_popularity'))
 
 
 from utilities import utils
