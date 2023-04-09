@@ -12,7 +12,7 @@ The dataset can be found [here](https://www.cs.cornell.edu/~arb/data/genius-expe
 Specifically this cleaned dataset contains the following features:
 |Feature|Description|
 |------|----|
-|`song`| Genius.com url identifier.|
+|`song`| Genius.com URL identifier.|
 `lyrics` | Raw lyrics.|
 `release_year` | Release year of the song. |
 `title` | Title of the song. |
