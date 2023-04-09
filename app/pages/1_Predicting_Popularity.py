@@ -6,15 +6,15 @@ from pathlib import Path
 import os
 
 sys.path.append(Path(os.getcwd()))
-
+CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
+st.write(CURRENT_WORKING_DIRECTORY)
 
 from utilities import utils
 import joblib
 
 # Setup the model-------------------------------------------------------------------------
 # This is the specific path for the streamlit app.
-CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
-st.write(CURRENT_WORKING_DIRECTORY)
+
 MODEL_PATH =  CURRENT_WORKING_DIRECTORY / 'model' / 'log_reg_tfidf.pkl'
 
 
