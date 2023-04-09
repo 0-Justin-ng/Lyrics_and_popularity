@@ -4,6 +4,7 @@ import streamlit as st
 import sys
 from pathlib import Path
 from PIL import Image
+import os 
 
 sys.path.append(Path('app/lyrics_and_popularity'))
 
