@@ -5,15 +5,16 @@ import sys
 from pathlib import Path
 import os
 
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(Path('app' / 'lyrics_and_popularity'))
 
 
 from utilities import utils
 import joblib
 
 # Setup the model-------------------------------------------------------------------------
-MODEL_PATH = utils.get_datapath('model') / 'log_reg_tfidf.pkl'
-st.write(os.getcwd())
+# This is the specific path for the streamlit app.
+MODEL_PATH = Path(os.getcwd() / 'model' / 'log_reg_tfidf.pkl')
+
 
 with open(MODEL_PATH, 'rb') as file:
     model = joblib.load(file)
