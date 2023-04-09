@@ -5,11 +5,13 @@ import sys
 from pathlib import Path
 from PIL import Image
 
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(Path('app/lyrics_and_popularity'))
 
 from utilities import utils
 import joblib
-FIG_PATH = utils.get_datapath('figures')
+
+CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
+FIG_PATH = CURRENT_WORKING_DIRECTORY / 'figures'
 
 import streamlit as st
 
