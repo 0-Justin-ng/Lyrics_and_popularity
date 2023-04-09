@@ -9,8 +9,9 @@ import os
 CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
 st.write(CURRENT_WORKING_DIRECTORY)
 sys.path.append(CURRENT_WORKING_DIRECTORY)
+st.write(sys.path)
 
-from .utilities import utils
+from utilities import utils
 import joblib
 
 # Setup the model-------------------------------------------------------------------------
