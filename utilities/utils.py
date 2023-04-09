@@ -12,11 +12,14 @@ import matplotlib.pyplot as plt
 
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+from nltk import download
 
 # Set the english stop words.
+download('stopwords')
 ENGLISH_STOP_WORDS = set(stopwords.words('english'))
 
 VECTORIZER_PATH = 'vectorizer_data'
+
 def get_datapath(source_path):
     cwd = os.getcwd()
     parent_path = Path(cwd).parent
