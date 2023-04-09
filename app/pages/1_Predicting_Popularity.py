@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 import sys
 from pathlib import Path
-
+import os
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
@@ -13,7 +13,7 @@ import joblib
 
 # Setup the model-------------------------------------------------------------------------
 MODEL_PATH = utils.get_datapath('model') / 'log_reg_tfidf.pkl'
-st.write(MODEL_PATH)
+st.write(os.getcwd())
 
 with open(MODEL_PATH, 'rb') as file:
     model = joblib.load(file)
