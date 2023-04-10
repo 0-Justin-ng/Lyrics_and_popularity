@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 
 
-CURRENT_WORKING_DIRECTORY = Path(os.getcwd())
+CURRENT_WORKING_DIRECTORY = os.getcwd()
 st.write(CURRENT_WORKING_DIRECTORY)
 sys.path.append(CURRENT_WORKING_DIRECTORY)
 st.write(sys.path)
