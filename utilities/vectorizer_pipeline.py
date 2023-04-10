@@ -6,9 +6,44 @@ import joblib
 VECTORIZER_FOLDER = 'vectorizer_data'
 class VectorizerPipeline:
     '''
-    This class sets up a vectorizer pipeline that takes an sklearn vectorizer
-    and fits and transforms the split data and dumps both the vectorizer and the train
-    test splits into appropriate folders. These can then be used for modelling later. 
+    This class sets up a vectorizer pipeline that takes an sklearn vectorizer splits data and fits 
+    and transforms the splits. This class also can dump both the vectorizer and the train, validation and 
+    test splits with joblib. These can then be used for modelling later. This class was implemented before
+    learning about sklearn pipelines. 
+    
+    Initialization
+    --------------
+    vectorizer_name : str
+        Name of the vectorizer. Used for naming for the dumped vectorizer.
+
+    vectorizer: sklearn.feature_extraction.text vectorizer object
+        The vectorizer useed to transform the lyrics with.
+    
+    X : array-like of str
+        The lyrics to be converted. 
+    
+    y : array-like of int
+        The target variable, which is the popularity class. 
+
+    Attributes
+    ----------
+    split_data : {array_like}
+        A dictionary where the keys are names for the data splits 
+        ('X_train', 'X_val', 'X_test', 'y_train', 'y_val', 'y_test') and 
+        the values are the data splits themselves 
+
+    vectorizer_path : Path object
+        Defines the file path to store the joblib dumps. 
+
+    transformed_data : {sparse matrix}
+        A dictionary where the keys are the names for the data splits and the 
+        values are the transformed X values for each split. 
+
+    Public Methods
+    --------------
+    run_vectorizer_pipeline : 
+        Runs all the vectorizer functionality using the inputs from initializing the class. 
+
     '''
     def __init__(
             self, vectorizer_name, vectorizer, 
@@ -18,6 +53,7 @@ class VectorizerPipeline:
         self.vectorizer_name = vectorizer_name
         # The vectorizer object itself.
         self.vectorizer = vectorizer
+        # Stores 
         self.split_data = self._splitter(X, y)
         self.vectorizer_path = utils.get_datapath(VECTORIZER_FOLDER) / vectorizer_name
         self.transformed_data = {}
@@ -27,6 +63,9 @@ class VectorizerPipeline:
 
 
     def _dump_vectorizers(self):
+        '''
+        Dumps the vectorizer trained on the training data. 
+        '''
         with open(
             self.vectorizer_path / f'{self.vectorizer_name}.pkl', 
             'wb'
@@ -37,6 +76,9 @@ class VectorizerPipeline:
 
 
     def _dump_test_train_split(self):
+        '''
+        Dumps the transformed train, validation and test splits. 
+        '''
         with open(
             self.vectorizer_path / 'data.pkl',
             'wb'
@@ -47,6 +89,18 @@ class VectorizerPipeline:
 
 
     def _splitter(self, X, y):
+        '''
+        Splits the data into train, validation and test splits. 
+        
+        Parameters
+        ----------
+        X : array-like of str
+            The lyrics in text format.
+        
+        y : array-like of int
+            The target.  
+
+        '''
         X_remainder, X_test, y_remainder, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
 
         X_train, X_val, y_train, y_val = train_test_split(X_remainder, y_remainder, test_size=0.25, stratify=y_remainder)
@@ -62,6 +116,12 @@ class VectorizerPipeline:
             
         
     def run_vectorizer_pipeline(self):
+        '''
+        This method runs the entire pipeline of fitting the vectorizer on the train set
+        and transforming the validation and test data. This method also invokes the methods
+        to dump the transformed data and the vectorizer itself. 
+        '''
+
         self.vectorizer.fit(self.split_data['X_train'])
         X_train_transformed = self.vectorizer.transform(self.split_data['X_train'])
         X_val_transformed = self.vectorizer.transform(self.split_data['X_val'])
@@ -81,5 +141,5 @@ class VectorizerPipeline:
         self.transformed_data['y_test'] = self.split_data['y_test']
 
         self._dump_test_train_split()
-        #self._dump_vectorizers()
+        self._dump_vectorizers()
         
