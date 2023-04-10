@@ -30,8 +30,8 @@ Specifically this cleaned dataset contains the following features:
 
 ## Findings
 You can checkout the following two files in the repository for a summary of the project: 
-- `Capstone_Final_Presentation.pdf` 
-- `Capstone_Report.pdf`
+- [`Capstone_Final_Presentation.pdf`](https://github.com/0-Justin-ng/Lyrics_and_popularity/blob/main/Capstone_Final_Presentation.pdf)
+- [`Capstone_Report.pdf`](https://github.com/0-Justin-ng/Lyrics_and_popularity/blob/main/Capstone_Report.pdf)
 
 ## Test the Model
 Do you think you can write a hit song? You can take a look at the model in action [here](https://0-justin-ng-lyrics-and-popularity-appintroduction-mcg5kw.streamlit.app/Predicting_Popularity). 
