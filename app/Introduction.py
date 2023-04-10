@@ -24,3 +24,6 @@ st.write('Song popularity can be influenced by many factors, but one factor has 
 st.write('Limiting ourselves to only lyrics will make this objective harder to achieve, \
          but being able to meet this objective would bring value to the songwriting industry. \
          Specifically, our findings could enable individuals to write popular music more efficiently.')
+
+st.write('You can look at the source code for this project at:')
+st.write('https://github.com/0-Justin-ng/Lyrics_and_popularity')
