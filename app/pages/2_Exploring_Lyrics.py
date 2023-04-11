@@ -32,8 +32,16 @@ with open(FIG_PATH / 'summary_df.pkl', 'rb') as file:
 st.dataframe(summary_df)
 
 
-st.write('---')
+st.title('Word Count Distribution')
+st.write('Here we will look at how the word count is distributed from the lyrics. We can see\
+         that many of the lyrics have around 100 to 400 words.')
 
+with open(FIG_PATH / 'word_count_distribution.pkl', 'rb') as file:
+    fig = joblib.load(file)
+    
+st.plotly_chart(fig, theme="streamlit")
+
+st.write('---')
 
 #--------------------------------------------------------------
 st.image(Image.open(FIG_PATH/'4.-808s-_-Heartbreak-Album-Art.jpg'))
